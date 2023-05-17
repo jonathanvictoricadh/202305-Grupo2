@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/CheckAgro/CheckAgro.iml" filepath="$PROJECT_DIR$/CheckAgro/CheckAgro.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CheckAgro/ConfigServer/ConfigServer.iml" filepath="$PROJECT_DIR$/CheckAgro/ConfigServer/ConfigServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/Grupo2.git.iml" filepath="$PROJECT_DIR$/.idea/Grupo2.git.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CheckAgro/api-check/api-check.iml" filepath="$PROJECT_DIR$/CheckAgro/api-check/api-check.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CheckAgro/api-customer/api-customer.iml" filepath="$PROJECT_DIR$/CheckAgro/api-customer/api-customer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CheckAgro/api-provider/api-provider.iml" filepath="$PROJECT_DIR$/CheckAgro/api-provider/api-provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/CheckAgro/eurekaServer/eurekaServer.iml" filepath="$PROJECT_DIR$/CheckAgro/eurekaServer/eurekaServer.iml" />
+    </modules>
+  </component>
+</project>

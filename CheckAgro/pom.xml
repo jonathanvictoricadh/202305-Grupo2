@@ -32,6 +32,9 @@
 		<module>
 			api-provider
 		</module>
+		<module>
+			ConfigServer
+		</module>
 	</modules>
 
 

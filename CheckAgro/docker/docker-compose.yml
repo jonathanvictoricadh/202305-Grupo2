@@ -1,17 +1,16 @@
 version: "3.3"
 services:
   mysql:
-    image: mysql:5.7
+    image: postgres
     restart: always
     environment:
-      MYSQL_DATABASE: 'checkAgro-dev'
-      MYSQL_USER: 'usr-checkAgro'
-      MYSQL_PASSWORD: 'pwd-checkAgro'
-      MYSQL_ROOT_PASSWORD: 'password'
+      POSTGRES_DB: 'checkAgro-dev'
+      POSTGRES_USER: 'usr-checkAgro'
+      POSTGRES_PASSWORD: 'pwd-checkAgro'
     ports:
       # <Port exposed> : < MySQL Port running inside container>
-      - '3307:3306'
+      - '5432:5432'
     expose:
       # Opens port 3306 on the container
-      - '3306'
+      - '5432'
       # Where our data will be persisted

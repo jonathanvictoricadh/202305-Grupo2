@@ -2,9 +2,10 @@ package com.jmg.checkagro.provider.client;
 import feign.Headers;
 import feign.RequestLine;
 import lombok.*;
+import org.springframework.cloud.openfeign.FeignClient;
 
 import javax.validation.constraints.Size;
-
+@FeignClient(name = "api-check")
 public interface CheckMSClient {
 
     @Headers("Content-Type: application/json")

@@ -22,7 +22,9 @@
 	</dependencies>
 
 	<modules>
-		<module>eurekaServer</module>
+		<module>
+			eurekaServer
+		</module>
 		<module>
 			api-check
 		</module>
@@ -34,6 +36,9 @@
 		</module>
 		<module>
 			ConfigServer
+		</module>
+		<module>
+			api-gateway
 		</module>
 	</modules>
 

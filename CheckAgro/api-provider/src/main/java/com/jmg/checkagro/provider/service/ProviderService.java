@@ -7,7 +7,6 @@ import com.jmg.checkagro.provider.model.Provider;
 import com.jmg.checkagro.provider.repository.ProviderRepository;
 import com.jmg.checkagro.provider.utils.DateTimeUtils;
 import feign.Feign;
-import feign.jackson.JacksonEncoder;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +16,14 @@ import javax.transaction.Transactional;
 public class ProviderService {
 
     private final ProviderRepository providerRepository;
+    // TODO: 24/05/2023 al agregar acá el feign q está en cliente me pidio q lo meta en el constructor ok?
+    private final CheckMSClient checkMSClient;
     @Value("${urlCheck}")
     private String urlCheck;
 
-    public ProviderService(ProviderRepository providerRepository) {
+    public ProviderService(ProviderRepository providerRepository, CheckMSClient checkMSClient) {
         this.providerRepository = providerRepository;
+        this.checkMSClient = checkMSClient;
     }
 
     @Transactional
@@ -37,11 +39,11 @@ public class ProviderService {
     }
 
     private void registerProviderInMSCheck(Provider entity) {
-
+/*
         CheckMSClient client = Feign.builder()
                 .encoder(new JacksonEncoder())
-                .target(CheckMSClient.class, urlCheck);
-        client.registerProvider(CheckMSClient.DocumentRequest.builder()
+                .target(CheckMSClient.class, urlCheck);*/
+        checkMSClient.registerProvider(CheckMSClient.DocumentRequest.builder()
                 .documentType(entity.getDocumentType())
                 .documentValue(entity.getDocumentNumber())
                 .build());
@@ -49,10 +51,10 @@ public class ProviderService {
 
     private void deleteProviderInMSCheck(Provider entity) {
 
-        CheckMSClient client = Feign.builder()
+      /*  CheckMSClient client = Feign.builder()
                 .encoder(new JacksonEncoder())
-                .target(CheckMSClient.class, urlCheck);
-        client.deleteProvider(CheckMSClient.DocumentRequest.builder()
+                .target(CheckMSClient.class, urlCheck);*/
+        checkMSClient.deleteProvider(CheckMSClient.DocumentRequest.builder()
                 .documentType(entity.getDocumentType())
                 .documentValue(entity.getDocumentNumber())
                 .build());

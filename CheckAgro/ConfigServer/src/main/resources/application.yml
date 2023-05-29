@@ -8,6 +8,6 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/JustoDMeiners/configsParcial
+          uri: https://github.com/jonathanvictoricadh/202305-Grupo2-Config
           default-label: main
           force-pull: true

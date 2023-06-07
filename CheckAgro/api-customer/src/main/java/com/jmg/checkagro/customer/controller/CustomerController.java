@@ -24,22 +24,22 @@ public class CustomerController {
 
 
     @PostMapping
-    public Map<String, Long> create(@RequestBody CustomerRequest request) throws CustomerException {
+    public Map<String, String> create(@RequestBody CustomerRequest request) throws CustomerException {
         return Map.of("id", customerService.create(customerMapper.toCustomer(request)));
     }
 
     @PutMapping("/{id}")
-    public void update(@RequestBody CustomerRequest request, @PathVariable Long id) throws CustomerException {
+    public void update(@RequestBody CustomerRequest request, @PathVariable String id) throws CustomerException {
         customerService.update(id, customerMapper.toCustomer(request));
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Long id) throws CustomerException {
+    public void delete(@PathVariable String id) throws CustomerException {
         customerService.deleteById(id);
     }
 
     @GetMapping("/{id}")
-    public CustomerResponse getById(@PathVariable Long id) throws CustomerException {
+    public CustomerResponse getById(@PathVariable String id) throws CustomerException {
         return customerMapper.toCustomerResponse(customerService.getById(id));
     }
 

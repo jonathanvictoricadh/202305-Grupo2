@@ -27,7 +27,7 @@ public class CustomerService {
     }
 
     @Transactional
-    public Long create(Customer entity) throws CustomerException {
+    public String create(Customer entity) throws CustomerException {
         if(customerRepository.findByDocumentTypeAndDocumentNumber(entity.getDocumentType(),entity.getDocumentNumber()).isPresent()){
             throw new CustomerException(MessageCode.CUSTOMER_EXISTS);
         }
@@ -56,7 +56,7 @@ public class CustomerService {
                 .build());
     }
 
-    public void update(Long id, Customer entity) throws CustomerException {
+    public void update(String id, Customer entity) throws CustomerException {
         var entityUpdate = customerRepository.findById(id).orElseThrow(() -> new CustomerException(MessageCode.CUSTOMER_NOT_FOUND));
         entity.setDocumentType(entityUpdate.getDocumentType());
         entity.setDocumentNumber(entityUpdate.getDocumentNumber());
@@ -66,14 +66,14 @@ public class CustomerService {
         customerRepository.save(entity);
     }
 
-    public void deleteById(Long id) throws CustomerException {
+    public void deleteById(String id) throws CustomerException {
         var entityDelete = customerRepository.findById(id).orElseThrow(() -> new CustomerException(MessageCode.CUSTOMER_NOT_FOUND));
         customerRepository.updateActive(false, id);
         deleteCustomerInMSCheck(entityDelete);
 
     }
 
-    public Customer getById(Long id) throws CustomerException {
+    public Customer getById(String id) throws CustomerException {
         return customerRepository.findByIdAndActive(id, true).orElseThrow(() -> new CustomerException(MessageCode.CUSTOMER_NOT_FOUND));
     }
 }

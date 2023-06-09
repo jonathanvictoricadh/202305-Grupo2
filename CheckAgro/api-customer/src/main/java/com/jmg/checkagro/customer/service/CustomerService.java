@@ -7,6 +7,8 @@ import com.jmg.checkagro.customer.model.Customer;
 import com.jmg.checkagro.customer.repository.CustomerRepository;
 import com.jmg.checkagro.customer.utils.DateTimeUtils;
 import feign.Feign;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -40,12 +42,17 @@ public class CustomerService {
         return entity.getId();
     }
 
+    @Retry(name="retryCustomerRegister")
+    @CircuitBreaker(name="registerCustomer", fallbackMethod = "registerCustomerInMSCheckFallback")
     private void registerCustomerInMSCheck(Customer entity) {
         /* TODO: acá reemplacé */
         checkMSClient.registerCustomer(CheckMSClient.DocumentRequest.builder()
                 .documentType(entity.getDocumentType())
                 .documentValue(entity.getDocumentNumber())
                 .build());
+    }
+    public void registerCustomerInMSCheckFallback(Customer entity, Throwable t) throws Exception {
+        throw new Exception("No se pudo registrar");
     }
 
     private void deleteCustomerInMSCheck(Customer entity) {

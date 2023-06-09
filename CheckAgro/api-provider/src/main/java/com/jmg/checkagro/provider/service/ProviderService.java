@@ -7,6 +7,8 @@ import com.jmg.checkagro.provider.model.Provider;
 import com.jmg.checkagro.provider.repository.ProviderRepository;
 import com.jmg.checkagro.provider.utils.DateTimeUtils;
 import feign.Feign;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +39,8 @@ public class ProviderService {
         registerProviderInMSCheck(entity);
         return entity.getId();
     }
-
+    @Retry(name="retryProviderRegister")
+    @CircuitBreaker(name="registerProvider", fallbackMethod = "registerProviderInMSCheckFallback")
     private void registerProviderInMSCheck(Provider entity) {
 /*
         CheckMSClient client = Feign.builder()
@@ -47,6 +50,9 @@ public class ProviderService {
                 .documentType(entity.getDocumentType())
                 .documentValue(entity.getDocumentNumber())
                 .build());
+    }
+    public void registerProviderInMSCheckFallback(Provider entity, Throwable t) throws Exception {
+        throw new Exception("No se pudo registrar");
     }
 
     private void deleteProviderInMSCheck(Provider entity) {

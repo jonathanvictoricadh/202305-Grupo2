@@ -6,9 +6,10 @@
 		<groupId>com.jmg.checkagro</groupId>
 		<artifactId>CheckAgro</artifactId>
 		<version>0.0.1</version>
-		<relativePath/> <!-- lookup parent from repository -->
+
 	</parent>
 	<groupId>com.dh</groupId>
+	<packaging>jar</packaging>
 	<artifactId>api-gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>api-gateway</name>
@@ -51,6 +52,7 @@
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-openfeign</artifactId>
 		</dependency>
+
 	</dependencies>
 	<dependencyManagement>
 		<dependencies>

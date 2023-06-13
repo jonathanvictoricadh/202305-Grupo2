@@ -6,9 +6,10 @@
 		<groupId>com.jmg.checkagro</groupId>
 		<artifactId>CheckAgro</artifactId>
 		<version>0.0.1</version>
-		<relativePath/> <!-- lookup parent from repository -->
+
 	</parent>
 	<groupId>com.dh</groupId>
+	<packaging>jar</packaging>
 	<artifactId>eurekaServer</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>eurekaServer</name>

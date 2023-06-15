@@ -20,7 +20,7 @@ services:
     restart: on-failure
     environment:
       MONGO_INITDB_DATABASE: 'inscription-dev-mongo'
-      MONGO_INITDB_ROOT_USERNAME: 'usr-customer-mongo'
+      MONGO_INITDB_ROOT_USERNAME: 'usr-inscription-mongo'
       MONGO_INITDB_ROOT_PASSWORD: 'pwd-inscription-mongo'
     ports:
       - 27017:27017

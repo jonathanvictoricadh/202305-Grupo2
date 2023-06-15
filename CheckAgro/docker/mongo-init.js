@@ -1,11 +1,11 @@
 db.createUser(
     {
-      user: "usr-customer-mongo",
-      pwd: "pwd-customer-mongo",
+      user: "usr-inscription-mongo",
+      pwd: "pwd-inscription-mongo",
       roles: [
             {
               role: "readWrite",
-              db: "customer-dev-mongo"
+              db: "inscription-dev-mongo"
             }
         ]
     }

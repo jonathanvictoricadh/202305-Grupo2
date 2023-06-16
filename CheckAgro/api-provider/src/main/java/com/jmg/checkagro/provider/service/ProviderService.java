@@ -24,11 +24,14 @@ public class ProviderService {
     @Value("${urlCheck}")
     private String urlCheck;
 
-    public ProveedorCreadoEventProducer proveedorCreadoEventProducer;
+    private final ProveedorCreadoEventProducer proveedorCreadoEventProducer;
 
-    public ProviderService(ProviderRepository providerRepository, CheckMSClient checkMSClient) {
+
+
+    public ProviderService(ProviderRepository providerRepository, CheckMSClient checkMSClient, ProveedorCreadoEventProducer proveedorCreadoEventProducer) {
         this.providerRepository = providerRepository;
         this.checkMSClient = checkMSClient;
+        this.proveedorCreadoEventProducer = proveedorCreadoEventProducer;
     }
 
     @Transactional

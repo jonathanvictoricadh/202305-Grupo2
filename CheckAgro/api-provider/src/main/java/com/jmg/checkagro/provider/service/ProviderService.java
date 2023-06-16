@@ -1,6 +1,7 @@
 package com.jmg.checkagro.provider.service;
 
 import com.jmg.checkagro.provider.client.CheckMSClient;
+import com.jmg.checkagro.provider.event.ProveedorCreadoEventProducer;
 import com.jmg.checkagro.provider.exception.MessageCode;
 import com.jmg.checkagro.provider.exception.ProviderException;
 import com.jmg.checkagro.provider.model.Provider;
@@ -23,6 +24,8 @@ public class ProviderService {
     @Value("${urlCheck}")
     private String urlCheck;
 
+    public ProveedorCreadoEventProducer proveedorCreadoEventProducer;
+
     public ProviderService(ProviderRepository providerRepository, CheckMSClient checkMSClient) {
         this.providerRepository = providerRepository;
         this.checkMSClient = checkMSClient;
@@ -37,6 +40,8 @@ public class ProviderService {
         entity.setActive(true);
         providerRepository.save(entity);
         registerProviderInMSCheck(entity);
+        proveedorCreadoEventProducer.publishCrearProveedor(new ProveedorCreadoEventProducer.Data(entity.getId(), entity.getBusinessName()));
+
         return entity.getId();
     }
     @Retry(name="retryProviderRegister")
@@ -50,7 +55,7 @@ public class ProviderService {
                 .documentType(entity.getDocumentType())
                 .documentValue(entity.getDocumentNumber())
                 .build());
-    }
+        }
     public void registerProviderInMSCheckFallback(Provider entity, Throwable t) throws Exception {
         throw new Exception("No se pudo registrar");
     }

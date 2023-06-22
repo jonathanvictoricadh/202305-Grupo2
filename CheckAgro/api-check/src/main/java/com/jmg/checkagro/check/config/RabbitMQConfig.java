@@ -16,7 +16,10 @@ public class RabbitMQConfig {
     public static final String EXCHANGE_NAME = "backendExchange";
 
     public static final String TOPIC_PROVEEDOR_CREADO = "com.dh.proveedorCreado";
+    public static final String TOPIC_CLIENTE_CREADO = "com.dh.clienteCreado";
+
     public static final String QUEUE_PROVEEDOR_CREADO ="queueProveedorCreado";
+    public static final String QUEUE_CLIENTE_CREADO ="queueClienteCreado";
 
     @Bean
     public TopicExchange appExchange() {
@@ -29,8 +32,18 @@ public class RabbitMQConfig {
     }
 
     @Bean
+    public Queue queueClienteCreado(){
+        return new Queue(QUEUE_CLIENTE_CREADO);
+    }
+
+    @Bean
     public Binding declareBindingSpecific(){
         return BindingBuilder.bind(queueProveedorCreado()).to(appExchange()).with(TOPIC_PROVEEDOR_CREADO);
+    }
+
+    @Bean
+    public Binding declareBindingSpecificCliente(){
+        return BindingBuilder.bind(queueClienteCreado()).to(appExchange()).with(TOPIC_CLIENTE_CREADO);
     }
 
 

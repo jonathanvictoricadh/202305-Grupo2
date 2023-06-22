@@ -42,7 +42,7 @@ public class ProviderService {
         entity.setCreation(DateTimeUtils.now());
         entity.setActive(true);
         providerRepository.save(entity);
-        registerProviderInMSCheck(entity);
+//        registerProviderInMSCheck(entity);
         proveedorCreadoEventProducer.publishCrearProveedor(new ProveedorCreadoEventProducer.Data(entity.getId(), entity.getBusinessName()));
 
         return entity.getId();

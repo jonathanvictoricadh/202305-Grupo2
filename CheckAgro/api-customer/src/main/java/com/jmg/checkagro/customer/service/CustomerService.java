@@ -1,12 +1,12 @@
 package com.jmg.checkagro.customer.service;
 
 import com.jmg.checkagro.customer.client.CheckMSClient;
+import com.jmg.checkagro.customer.event.ClienteCreadoEventProducer;
 import com.jmg.checkagro.customer.exception.CustomerException;
 import com.jmg.checkagro.customer.exception.MessageCode;
 import com.jmg.checkagro.customer.model.Customer;
 import com.jmg.checkagro.customer.repository.CustomerRepository;
 import com.jmg.checkagro.customer.utils.DateTimeUtils;
-import feign.Feign;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,8 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CheckMSClient checkMSClient;
+
+    private final ClienteCreadoEventProducer clienteCreadoEventProducer;
     @Lazy
     @Autowired
     private CustomerService self;
@@ -28,9 +30,10 @@ public class CustomerService {
     @Value("${urlCheck}")
     private String urlCheck;
 
-    public CustomerService(CustomerRepository customerRepository, CheckMSClient checkMSClient) {
+    public CustomerService(CustomerRepository customerRepository, CheckMSClient checkMSClient, ClienteCreadoEventProducer clienteCreadoEventProducer) {
         this.customerRepository = customerRepository;
         this.checkMSClient = checkMSClient;
+        this.clienteCreadoEventProducer = clienteCreadoEventProducer;
     }
 
     @Transactional
@@ -42,8 +45,9 @@ public class CustomerService {
         entity.setActive(true);
         customerRepository.save(entity);
 
-        self.registerCustomerInMSCheck(entity);
+        clienteCreadoEventProducer.publishCrearCliente(new ClienteCreadoEventProducer.Data(1L, entity.getBusinessName()));
 
+        self.registerCustomerInMSCheck(entity);
         return entity.getId();
     }
 

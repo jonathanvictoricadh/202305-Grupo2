@@ -9,7 +9,9 @@ import com.jmg.checkagro.customer.utils.DateTimeUtils;
 import feign.Feign;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -19,6 +21,9 @@ public class CustomerService {
 
     private final CustomerRepository customerRepository;
     private final CheckMSClient checkMSClient;
+    @Lazy
+    @Autowired
+    private CustomerService self;
 
     @Value("${urlCheck}")
     private String urlCheck;
@@ -37,14 +42,14 @@ public class CustomerService {
         entity.setActive(true);
         customerRepository.save(entity);
 
-        registerCustomerInMSCheck(entity);
+        self.registerCustomerInMSCheck(entity);
 
         return entity.getId();
     }
 
     @Retry(name="retryCustomerRegister")
     @CircuitBreaker(name="registerCustomer", fallbackMethod = "registerCustomerInMSCheckFallback")
-    private void registerCustomerInMSCheck(Customer entity) {
+    public void registerCustomerInMSCheck(Customer entity) {
         /* TODO: acá reemplacé */
         checkMSClient.registerCustomer(CheckMSClient.DocumentRequest.builder()
                 .documentType(entity.getDocumentType())
@@ -52,6 +57,7 @@ public class CustomerService {
                 .build());
     }
     public void registerCustomerInMSCheckFallback(Customer entity, Throwable t) throws Exception {
+        System.out.println("API CHECK DOWN");
         throw new Exception("No se pudo registrar");
     }
 
